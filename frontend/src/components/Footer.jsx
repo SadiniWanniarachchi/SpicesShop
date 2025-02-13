@@ -1,5 +1,6 @@
 import { FaInstagram, FaPinterest, FaFacebook } from "react-icons/fa";
 import { motion } from "framer-motion";
+import spicelogo from '../assets/spicelogo.png';
 
 const footerVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -15,7 +16,7 @@ export const Footer = () => {
     return (
 
         <motion.footer
-            className="bg-[#c2c9b6] pt-12 sm:pt-20 pb-8 z-10 font-kulim"
+            className="bg-[#b7a69a] pt-12 sm:pt-20 pb-8 z-10 font-kulim"
             variants={footerVariants}
             initial="hidden"
             whileInView="visible"
@@ -24,8 +25,10 @@ export const Footer = () => {
 
                 {/* Left Section */}
                 <motion.div variants={sectionVariants}>
-                    <h1 className="text-2xl sm:text-3xl text-green-900 font-bold">HarvestBrew</h1>
-                    <p className="text-sm sm:text-base text-green-900 mt-2">Since 2020</p>
+                    {/* Logo */}
+                    <h1 className="text-2xl sm:text-3xl text-[#351108] font-bold hover:text-white">Spicelore</h1>
+                    {/* Tagline */}
+                    <p className="text-sm sm:text-base text-[#351108] mt-2">Since 2020</p>
 
                     {/* Social Media Icons */}
                     <div className="flex space-x-4 sm:space-x-6 mt-6 sm:mt-8">
@@ -33,7 +36,7 @@ export const Footer = () => {
                             href="https://www.instagram.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-green-900 hover:text-black transform hover:-translate-y-1 transition-transform duration-300"
+                            className="text-[#351108] hover:text-white transform hover:-translate-y-1 transition-transform duration-300"
                         >
                             <FaInstagram size={20} />
                         </a>
@@ -41,7 +44,7 @@ export const Footer = () => {
                             href="https://www.pinterest.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-green-900 hover:text-black transform hover:-translate-y-1 transition-transform duration-300"
+                            className="text-[#351108] hover:text-white transform hover:-translate-y-1 transition-transform duration-300"
                         >
                             <FaPinterest size={20} />
                         </a>
@@ -49,7 +52,7 @@ export const Footer = () => {
                             href="https://www.facebook.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-green-900 hover:text-black transform hover:-translate-y-1 transition-transform duration-300"
+                            className="text-[#351108] hover:text-white transform hover:-translate-y-1 transition-transform duration-300"
                         >
                             <FaFacebook size={20} />
                         </a>
@@ -58,25 +61,33 @@ export const Footer = () => {
 
                 {/* Navigation Section */}
                 <motion.div variants={sectionVariants}>
-                    <h3 className="text-lg sm:text-xl text-green-900 font-bold">Navigation</h3>
+                    <h3 className="text-lg sm:text-xl text-[#351108] font-bold">Navigation</h3>
                     <ul className="mt-4 space-y-2">
-                        <li><a href="#" className="text-sm sm:text-base text-green-900 hover:text-black font-bold">Home</a></li>
-                        <li><a href="#" className="text-sm sm:text-base text-green-900 hover:text-black font-bold">About Us</a></li>
-                        <li><a href="#" className="text-sm sm:text-base text-green-900 hover:text-black font-bold">Contact Us</a></li>
-                        <li><a href="#" className="text-sm sm:text-base text-green-900 hover:text-black font-bold">Shop</a></li>
+                        <li>
+                            <a href="#" className="text-sm sm:text-base text-[#351108] hover:text-white hover:underline font-bold">Home</a>
+                        </li>
+                        <li>
+                            <a href="#" className="text-sm sm:text-base text-[#351108] hover:text-white hover:underline font-bold">About Us</a>
+                        </li>
+                        <li>
+                            <a href="#" className="text-sm sm:text-base text-[#351108] hover:text-white hover:underline font-bold">Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="#" className="text-sm sm:text-base text-[#351108] hover:text-white hover:underline font-bold">Shop</a>
+                        </li>
                     </ul>
                 </motion.div>
 
                 {/* Newsletter Section */}
                 <motion.div variants={sectionVariants}>
-                    <h3 className="text-lg sm:text-xl text-green-900 font-bold">Subscribe to our newsletter</h3>
+                    <h3 className="text-lg sm:text-xl text-[#351108] font-bold">Subscribe to our newsletter</h3>
                     <div className="flex flex-col mt-4">
                         <input
                             type="email"
                             placeholder="Enter your email"
                             className="p-2 text-sm sm:text-base w-full border border-[#1E1916] rounded-md mb-4"
                         />
-                        <button className="p-2 bg-green-900 text-white text-sm sm:text-base rounded-md">
+                        <button className="p-2 bg-[#351108] text-white text-sm sm:text-base rounded-md">
                             Subscribe
                         </button>
                     </div>

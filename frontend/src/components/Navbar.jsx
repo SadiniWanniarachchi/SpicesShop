@@ -52,7 +52,7 @@ const Navbar = () => {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 text-gray-600 hover:text-amber-600"
+                            className="p-2 text-gray-600 hover:text-amber-900"
                         >
                             {isMenuOpen ? (
                                 <HiX className="w-6 h-6" />
