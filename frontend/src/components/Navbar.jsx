@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HiMenu, HiX, HiShoppingCart, HiUser } from 'react-icons/hi';
+import { HiMenu, HiX } from 'react-icons/hi';
 import spicelogo from '../assets/spicelogo.png';
 
 const Navbar = () => {
