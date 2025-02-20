@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import { Footer } from "./components/Footer";
-import { AboutUs } from "./pages/AboutUs";
-import { ContactUs } from "./pages/ContactUs";
+import Footer from "./components/Footer";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
         </Routes>
       </div>
