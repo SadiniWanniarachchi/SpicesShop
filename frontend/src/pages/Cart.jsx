@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MdDelete } from "react-icons/md"; // Import delete icon
+import { FaCcVisa, FaCcMastercard } from "react-icons/fa"; // Import card icons
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -37,7 +38,7 @@ const Cart = () => {
         cardNumber: "",
         expiryDate: "",
         cvv: "",
-        nameOnCard: "",
+        cardType: "visa", // Default card type
     });
 
     // State for form validation errors
@@ -63,27 +64,74 @@ const Cart = () => {
     // Handle payment form input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        // Allow only numbers for card number and CVV
+        if (name === "cardNumber" || name === "cvv") {
+            if (!/^\d*$/.test(value)) return; // Only allow digits
+        }
+
+        // Handle expiry date input
+        if (name === "expiryDate") {
+            let formattedValue = value;
+
+            // Automatically add '/' after 2 digits
+            if (value.length === 2 && !value.includes("/")) {
+                formattedValue = value + "/";
+            }
+
+            // Allow only numbers and '/'
+            if (!/^[\d/]*$/.test(formattedValue)) return;
+
+            setPaymentDetails({ ...paymentDetails, [name]: formattedValue });
+            return;
+        }
+
         setPaymentDetails({ ...paymentDetails, [name]: value });
+    };
+
+    // Handle card type change
+    const handleCardTypeChange = (e) => {
+        setPaymentDetails({ ...paymentDetails, cardType: e.target.value });
     };
 
     // Validate payment form
     const validateForm = () => {
         const newErrors = {};
 
+        // Card number validation
         if (!paymentDetails.cardNumber || paymentDetails.cardNumber.length !== 16) {
             newErrors.cardNumber = "Card number must be 16 digits.";
         }
 
-        if (!paymentDetails.expiryDate || !/^\d{2}\/\d{2}$/.test(paymentDetails.expiryDate)) {
+        // Expiry date validation
+        const expiryDate = paymentDetails.expiryDate;
+        if (!expiryDate || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
             newErrors.expiryDate = "Expiry date must be in MM/YY format.";
+        } else {
+            const [month, year] = expiryDate.split("/");
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of the year
+            const currentMonth = currentDate.getMonth() + 1; // Months are 0-indexed
+
+            // Validate month
+            if (parseInt(month) < 1 || parseInt(month) > 12) {
+                newErrors.expiryDate = "Month must be between 01 and 12.";
+            }
+
+            // Validate year
+            if (parseInt(year) < currentYear) {
+                newErrors.expiryDate = "Year must be in the future.";
+            }
+
+            // Validate if the date is in the future
+            if (parseInt(year) === currentYear && parseInt(month) < currentMonth) {
+                newErrors.expiryDate = "Expiry date must be in the future.";
+            }
         }
 
+        // CVV validation
         if (!paymentDetails.cvv || paymentDetails.cvv.length !== 3) {
             newErrors.cvv = "CVV must be 3 digits.";
-        }
-
-        if (!paymentDetails.nameOnCard) {
-            newErrors.nameOnCard = "Name on card is required.";
         }
 
         setErrors(newErrors);
@@ -191,9 +239,36 @@ const Cart = () => {
 
             {/* Pop-Up Payment Form */}
             {showPaymentForm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-8 rounded-lg w-full max-w-md">
+                <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+                    <div className="bg-white p-8 rounded-lg w-full max-w-md shadow-2xl">
                         <h2 className="text-2xl font-bold text-[#351108] mb-6">Payment Details</h2>
+
+                        {/* Card Type Selection */}
+                        <div className="mb-4">
+                            <label className="block text-gray-700 mb-2">Card Type</label>
+                            <div className="flex gap-4">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="cardType"
+                                        value="visa"
+                                        checked={paymentDetails.cardType === "visa"}
+                                        onChange={handleCardTypeChange}
+                                    />
+                                    <FaCcVisa className="w-8 h-8 text-[#351108]" />
+                                </label>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="cardType"
+                                        value="mastercard"
+                                        checked={paymentDetails.cardType === "mastercard"}
+                                        onChange={handleCardTypeChange}
+                                    />
+                                    <FaCcMastercard className="w-8 h-8 text-[#351108]" />
+                                </label>
+                            </div>
+                        </div>
 
                         {/* Card Number */}
                         <div className="mb-4">
@@ -205,6 +280,7 @@ const Cart = () => {
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#351108]"
                                 placeholder="1234 5678 9012 3456"
+                                maxLength={16}
                             />
                             {errors.cardNumber && <p className="text-red-600 text-sm mt-1">{errors.cardNumber}</p>}
                         </div>
@@ -219,12 +295,13 @@ const Cart = () => {
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#351108]"
                                 placeholder="MM/YY"
+                                maxLength={5}
                             />
                             {errors.expiryDate && <p className="text-red-600 text-sm mt-1">{errors.expiryDate}</p>}
                         </div>
 
                         {/* CVV */}
-                        <div className="mb-4">
+                        <div className="mb-6">
                             <label className="block text-gray-700 mb-2">CVV</label>
                             <input
                                 type="text"
@@ -233,22 +310,9 @@ const Cart = () => {
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#351108]"
                                 placeholder="123"
+                                maxLength={3}
                             />
                             {errors.cvv && <p className="text-red-600 text-sm mt-1">{errors.cvv}</p>}
-                        </div>
-
-                        {/* Name on Card */}
-                        <div className="mb-6">
-                            <label className="block text-gray-700 mb-2">Name on Card</label>
-                            <input
-                                type="text"
-                                name="nameOnCard"
-                                value={paymentDetails.nameOnCard}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#351108]"
-                                placeholder="John Doe"
-                            />
-                            {errors.nameOnCard && <p className="text-red-600 text-sm mt-1">{errors.nameOnCard}</p>}
                         </div>
 
                         {/* Submit Button */}
