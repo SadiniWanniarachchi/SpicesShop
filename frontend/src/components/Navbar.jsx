@@ -4,7 +4,6 @@ import spicelogo from '../assets/spicelogo.png';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const navLinks = [
         { name: 'Home', href: '/' },
@@ -14,82 +13,72 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="bg-white shadow-lg sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="flex justify-between items-center h-20">
-                    {/* Logo */}
-                    <div className="flex-shrink-0">
+        <nav className="bg-white/90 backdrop-blur-md shadow-lg sticky top-4 z-50 rounded-3xl mx-6 px-6 py-3">
+            <div className="max-w-7xl mx-auto flex justify-between items-center">
+                {/* Logo */}
+                <div className="flex-shrink-0">
+                    <img src={spicelogo} alt="Spicelore" className="h-14 w-auto" />
+                </div>
 
-                        <img src={spicelogo} alt="Spicelore" className="h-40 w-auto" />
-                    </div>
+                {/* Desktop Navigation */}
+                <div className="hidden md:flex text-lg font-medium items-center space-x-12">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.name}
+                            href={link.href}
+                            className="text-[#351108] hover:text-amber-900 relative group transition-all"
+                        >
+                            {link.name}
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#351108] transition-all group-hover:w-full"></span>
+                        </a>
+                    ))}
+                </div>
 
+                {/* Desktop Buttons */}
+                <div className="hidden md:flex items-center space-x-6">
+                    <button className="px-5 py-2 text-white bg-[#351108] hover:bg-amber-900 transition-all rounded-full shadow">
+                        Sign In
+                    </button>
+                    <button className="px-5 py-2 text-[#351108] border border-[#351108] hover:bg-[#351108] hover:text-white transition-all rounded-full shadow">
+                        Sign Up
+                    </button>
+                </div>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex text-lg font-semibold items-center space-x-8">
+                {/* Mobile Menu Button */}
+                <div className="md:hidden">
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="p-2 text-gray-600 hover:text-amber-900"
+                    >
+                        {isMenuOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
+                    </button>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+                <div className="md:hidden bg-white/90 backdrop-blur-md border-t rounded-3xl shadow-lg p-4 mt-2">
+                    <div className="space-y-3">
                         {navLinks.map((link) => (
                             <a
                                 key={link.name}
                                 href={link.href}
-                                className="text-[#351108] hover:text-amber-900 relative group transition-colors"
+                                className="block px-4 py-2 text-gray-700 hover:bg-amber-50 rounded-md"
                             >
                                 {link.name}
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#351108] transition-all group-hover:w-full"></span>
                             </a>
                         ))}
                     </div>
-
-                    <div className="pt-2 flex items-center justify-center space-x-4 font-bold">
-                        <button className="flex-1 flex items-center justify-center px-6 py-2 text-white border border-[#351108] bg-[#351108] hover:bg-white hover:text-[#351108] transition-all duration-300 rounded-lg shadow-md whitespace-nowrap">
+                    <div className="pt-5 border-t flex space-x-4">
+                        <button className="w-1/2 px-5 py-2 text-white bg-[#351108] hover:bg-amber-900 rounded-full">
                             Sign In
                         </button>
-                        <button className="flex-1 flex items-center justify-center px-6 py-2 text-[#351108] border border-[#351108] hover:bg-[#351108] hover:text-white transition-all duration-300 rounded-lg shadow-md whitespace-nowrap">
+                        <button className="w-1/2 px-5 py-2 text-[#351108] border border-[#351108] hover:bg-[#351108] hover:text-white rounded-full">
                             Sign Up
                         </button>
                     </div>
-
-
-                    {/* Mobile Menu Button */}
-                    <div className="md:hidden">
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 text-gray-600 hover:text-amber-900"
-                        >
-                            {isMenuOpen ? (
-                                <HiX className="w-6 h-6" />
-                            ) : (
-                                <HiMenu className="w-6 h-6" />
-                            )}
-                        </button>
-                    </div>
                 </div>
-
-                {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="md:hidden bg-white border-t">
-                        <div className="px-2 pt-2 pb-3 space-y-1">
-                            {navLinks.map((link) => (
-                                <a
-                                    key={link.name}
-                                    href={link.href}
-                                    className="block px-3 py-2 text-gray-600 hover:bg-amber-50 rounded-md"
-                                >
-                                    {link.name}
-                                </a>
-                            ))}
-                            <div className="pt-4 border-t flex space-x-4">
-                                <button className="w-1/2 flex items-center justify-center px-4 py-2 text-white bg-amber-600 hover:bg-amber-700 rounded-md">
-                                    Login
-                                </button>
-                                <button className="w-1/2 flex items-center justify-center px-4 py-2 text-amber-600 border border-amber-600 hover:bg-amber-50 rounded-md">
-                                    Sign Up
-                                </button>
-                            </div>
-
-
-                        </div>
-                    </div>
-                )}
-            </div>
+            )}
         </nav>
     );
 };
