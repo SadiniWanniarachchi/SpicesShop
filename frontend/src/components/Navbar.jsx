@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
 import spicelogo from '../assets/spicelogo.png';
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,7 +9,7 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Home', href: '/' },
-        { name: 'About', href: '/about' },
+        { name: 'About', href: '/AboutUs' },
         { name: 'Contact', href: '/contact' },
         { name: 'Shop', href: '/shop' },
     ];
@@ -39,13 +40,16 @@ const Navbar = () => {
                     </div>
 
                     <div className="pt-2 flex items-center justify-center space-x-4 font-bold">
-                        <button className="flex-1 flex items-center justify-center px-6 py-2 text-white border border-[#351108] bg-[#351108] hover:bg-white hover:text-[#351108] transition-all duration-300 rounded-lg shadow-md whitespace-nowrap">
-                            Sign In
-                        </button>
+                        <Link to="/dashboard">
+                            <button className="flex-1 flex items-center justify-center px-6 py-2 text-white border border-[#351108] bg-[#351108] hover:bg-white hover:text-[#351108] transition-all duration-300 rounded-lg shadow-md whitespace-nowrap">
+                                Sign In
+                            </button>
+                        </Link>
                         <button className="flex-1 flex items-center justify-center px-6 py-2 text-[#351108] border border-[#351108] hover:bg-[#351108] hover:text-white transition-all duration-300 rounded-lg shadow-md whitespace-nowrap">
                             Sign Up
                         </button>
                     </div>
+
 
 
                     {/* Mobile Menu Button */}
